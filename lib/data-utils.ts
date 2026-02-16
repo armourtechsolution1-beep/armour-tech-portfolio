@@ -16,13 +16,15 @@ export function getProjectWithDetails(
   project: Project,
   photos: ProjectPhoto[],
   technologies: ProjectTechnology[],
-  reviews: Review[]
+  reviews: Review[],
+  members:Member[]
 ) {
   return {
     ...project,
     projectPhotos: photos,
     technologies,
     reviews,
+    members
   };
 }
 
@@ -30,12 +32,14 @@ export function getMemberWithDetails(
   member: Member,
   skills: Skill[],
   contacts: Contact[],
-  workExperiences: WorkExperience[]
+  workExperiences: WorkExperience[],
+  projects:Project[]
 ) {
   return {
     ...member,
     skills,
     contacts,
     workExperiences,
+    projects
   };
 }

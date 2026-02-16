@@ -1,6 +1,5 @@
 import { WorkExperience } from '@/lib/types';
 import { Timeline, TimelineItem } from '@/components/ui/timeline';
-import { formatDistanceToNow } from 'date-fns';
 import { cn } from '@/lib/utils';
 
 interface WorkTimelineProps {

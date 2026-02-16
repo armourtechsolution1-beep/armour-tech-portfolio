@@ -26,7 +26,7 @@ const mockOrganization: Organization = {
   objective: 'We create innovative digital solutions that transform businesses',
   about: 'ArmourTech is a full-stack development company focused on creating cutting-edge web applications and digital experiences. Our team of passionate engineers and designers work together to deliver high-quality software solutions.',
   website_url: 'https://armour-tech-portfolio.vercel.app/',
-  logo_url: '/Logo.Jpeg',
+  logo_url: '/Logo.jpeg',
   cover_photo_url: 'https://picsum.photos/seed/cover/1200/600',
   email: 'armourtechsolution1@gmail.com',
   phone: '+254 741 013 836',
@@ -45,7 +45,7 @@ const mockMembers: Member[] = [
     objective: 'Building scalable web applications that solve real-world problems',
     about: 'Sarah is a talented full-stack developer with expertise in modern JavaScript frameworks. She leads our technical initiatives and mentors junior developers.',
     display_photo_url: '/profile/malcom.png',
-    cover_photo_url: '/profile/malcom.png',
+    cover_photo_url: '/profile/placeholder.jpg',
     organization_id: 'org-1',
     created_at: new Date('2023-02-01'),
     updated_at: new Date('2024-01-01'),
@@ -59,7 +59,7 @@ const mockMembers: Member[] = [
     objective: 'Crafting intuitive and visually stunning user interfaces',
     about: 'Alex brings a creative eye to every project. With a background in graphic design, Alex creates interfaces that are both beautiful and functional.',
     display_photo_url: '/profile/alvo.png',
-    cover_photo_url: '/profile/alvo.png',
+    cover_photo_url: '/profile/alvo2.jpg',
     organization_id: 'org-1',
     created_at: new Date('2023-03-01'),
     updated_at: new Date('2024-01-01'),
@@ -164,6 +164,7 @@ const mockProjects: Project[] = [
     media_url: 'https://picsum.photos/seed/ecommerce-hero/1200/600',
     created_at: new Date('2023-06-01'),
     updated_at: new Date('2024-01-01'),
+    details: "On the Insert tab, the galleries include items that are designed to coordinate with the overall look of your document. You can use these galleries to insert tables, headers, footers, lists, cover pages, and other document building blocks. When you create pictures, charts, or diagrams, they also coordinate with your current document look.You can easily change the formatting of selected text in the document text by choosing a look for the selected text from the Quick Styles gallery on the Home tab. You can also format text directly by using the other controls on the Home tab. Most controls offer a choice of using the look from the current theme or using a format that you specify directly.To change the overall look of your document, choose new Theme elements on the Page Layout tab. To change the looks available in the Quick Style gallery, use the Change Current Quick Style Set command. Both the Themes gallery and the Quick Styles gallery provide reset commands so that you can always restore the look of your document to the original contained in your current template."
   },
   {
     id: 'project-2',
@@ -180,6 +181,8 @@ const mockProjects: Project[] = [
     media_url: 'https://picsum.photos/seed/ai-hero/1200/600',
     created_at: new Date('2023-09-01'),
     updated_at: new Date('2024-01-01'),
+    details: "On the Insert tab, the galleries include items that are designed to coordinate with the overall look of your document. You can use these galleries to insert tables, headers, footers, lists, cover pages, and other document building blocks. When you create pictures, charts, or diagrams, they also coordinate with your current document look.You can easily change the formatting of selected text in the document text by choosing a look for the selected text from the Quick Styles gallery on the Home tab. You can also format text directly by using the other controls on the Home tab. Most controls offer a choice of using the look from the current theme or using a format that you specify directly.To change the overall look of your document, choose new Theme elements on the Page Layout tab. To change the looks available in the Quick Style gallery, use the Change Current Quick Style Set command. Both the Themes gallery and the Quick Styles gallery provide reset commands so that you can always restore the look of your document to the original contained in your current template."
+
   },
   {
     id: 'project-3',
@@ -196,6 +199,8 @@ const mockProjects: Project[] = [
     media_url: 'https://picsum.photos/seed/mobile-hero/1200/600',
     created_at: new Date('2023-10-01'),
     updated_at: new Date('2024-01-01'),
+    details: "On the Insert tab, the galleries include items that are designed to coordinate with the overall look of your document. You can use these galleries to insert tables, headers, footers, lists, cover pages, and other document building blocks. When you create pictures, charts, or diagrams, they also coordinate with your current document look.You can easily change the formatting of selected text in the document text by choosing a look for the selected text from the Quick Styles gallery on the Home tab. You can also format text directly by using the other controls on the Home tab. Most controls offer a choice of using the look from the current theme or using a format that you specify directly.To change the overall look of your document, choose new Theme elements on the Page Layout tab. To change the looks available in the Quick Style gallery, use the Change Current Quick Style Set command. Both the Themes gallery and the Quick Styles gallery provide reset commands so that you can always restore the look of your document to the original contained in your current template."
+
   },
   {
     id: 'project-4',
@@ -212,6 +217,8 @@ const mockProjects: Project[] = [
     media_url: 'https://picsum.photos/seed/analytics-hero/1200/600',
     created_at: new Date('2023-07-01'),
     updated_at: new Date('2023-12-01'),
+    details: "On the Insert tab, the galleries include items that are designed to coordinate with the overall look of your document. You can use these galleries to insert tables, headers, footers, lists, cover pages, and other document building blocks. When you create pictures, charts, or diagrams, they also coordinate with your current document look.You can easily change the formatting of selected text in the document text by choosing a look for the selected text from the Quick Styles gallery on the Home tab. You can also format text directly by using the other controls on the Home tab. Most controls offer a choice of using the look from the current theme or using a format that you specify directly.To change the overall look of your document, choose new Theme elements on the Page Layout tab. To change the looks available in the Quick Style gallery, use the Change Current Quick Style Set command. Both the Themes gallery and the Quick Styles gallery provide reset commands so that you can always restore the look of your document to the original contained in your current template."
+
   },
   {
     id: 'project-5',
@@ -228,6 +235,8 @@ const mockProjects: Project[] = [
     media_url: 'https://picsum.photos/seed/chat-hero/1200/600',
     created_at: new Date('2023-11-01'),
     updated_at: new Date('2024-01-01'),
+    details: "On the Insert tab, the galleries include items that are designed to coordinate with the overall look of your document. You can use these galleries to insert tables, headers, footers, lists, cover pages, and other document building blocks. When you create pictures, charts, or diagrams, they also coordinate with your current document look.You can easily change the formatting of selected text in the document text by choosing a look for the selected text from the Quick Styles gallery on the Home tab. You can also format text directly by using the other controls on the Home tab. Most controls offer a choice of using the look from the current theme or using a format that you specify directly.To change the overall look of your document, choose new Theme elements on the Page Layout tab. To change the looks available in the Quick Style gallery, use the Change Current Quick Style Set command. Both the Themes gallery and the Quick Styles gallery provide reset commands so that you can always restore the look of your document to the original contained in your current template."
+
   },
   {
     id: 'project-6',
@@ -244,6 +253,8 @@ const mockProjects: Project[] = [
     media_url: 'https://picsum.photos/seed/design-hero/1200/600',
     created_at: new Date('2023-08-01'),
     updated_at: new Date('2024-01-01'),
+    details: "On the Insert tab, the galleries include items that are designed to coordinate with the overall look of your document. You can use these galleries to insert tables, headers, footers, lists, cover pages, and other document building blocks. When you create pictures, charts, or diagrams, they also coordinate with your current document look.You can easily change the formatting of selected text in the document text by choosing a look for the selected text from the Quick Styles gallery on the Home tab. You can also format text directly by using the other controls on the Home tab. Most controls offer a choice of using the look from the current theme or using a format that you specify directly.To change the overall look of your document, choose new Theme elements on the Page Layout tab. To change the looks available in the Quick Style gallery, use the Change Current Quick Style Set command. Both the Themes gallery and the Quick Styles gallery provide reset commands so that you can always restore the look of your document to the original contained in your current template."
+
   },
 ];
 

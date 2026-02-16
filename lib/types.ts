@@ -80,6 +80,7 @@ export interface Project {
   id: string;
   name: string;
   description: string;
+  details:string,
   owner_id: string;
   owner_type: OwnerType;
   status: ProjectStatus;
@@ -171,6 +172,9 @@ export interface Document {
   created_at: Date;
   updated_at: Date;
 }
+// export interface roles{
+
+// }
 
 // Relationship Types (populated entities)
 export interface ProjectWithPhotosAndTechs extends Project {

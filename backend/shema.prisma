@@ -1,0 +1,69 @@
+enum ProjectStatus{
+    complete 
+    on_going
+}
+enum ProjectType{
+    organisation
+    individual
+}
+enum ContactType{
+    FACEBOOK
+    INSTAGRAM
+    EMAIL
+    DISCORD
+    GITHUB
+    WHATSAPP
+}
+model organisation{
+    id   String   @id @default(uuid())
+    name String
+    objective String
+    logo_url String
+    cover_photo_url String
+    display_photo_url String
+    about String
+    date_formed DateTime
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+}
+model members{
+    id String @id @default(uuid())
+    first_name String
+    last_name String
+    other_name String
+    gender String
+    nationality String
+    date_of_birth DateTime
+    about_member String
+    objective String
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    // relationships
+    organisation_id String
+}
+model project{
+    id String @id @default(uuid())
+    project_name String
+    description String
+    media_url String
+    date_started DateTime
+    date_completed DateTime
+    project_status ProjectStatus
+    project_type ProjectType
+    project_details String
+
+}
+model contact_templates{
+    id String @id @default(uuid())
+    display_name String
+    icon String
+    base_url String
+    contact_type ContactType
+}
+model skills{
+    id String @id @default(uuid())
+    name String
+    description String
+    serch_link String 
+    
+}

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, ListOrderedIcon, Stars } from 'lucide-react';
 import {
   fetchProjectById,
   fetchProjectTechnologies,
@@ -17,6 +17,7 @@ import { PhotoGallery } from '@/components/projects/photo-gallery';
 import { TechStack } from '@/components/projects/tech-stack';
 import { TeamSection } from '@/components/projects/team-section';
 import { ReviewsSection } from '@/components/projects/reviews-section';
+import ProjectDetails from '@/components/projects/project-details';
 
 interface ProjectDetailPageProps {
   params: Promise<{ projectId: string }>;
@@ -98,8 +99,15 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
           <div className="rounded-lg border border-border bg-card p-8 text-center">
             <p className="text-lg font-semibold text-foreground">Project not found</p>
             <p className="mt-2 text-muted-foreground">
-              The project you're looking for doesn't exist.
+              Mhhh looks like the project asked for does not exist try going back to the projects page to see what we have or email us to help come up with this project.
             </p>
+              <Link
+            href="/home/projects"
+            className="inline-flex items-center gap-2 text-primary hover:underline"
+          >
+            <ListOrderedIcon className="h-4 w-4" />
+            See what we have
+          </Link>
           </div>
         </div>
       </div>
@@ -149,6 +157,10 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
           {/* Hero Section */}
           <motion.div variants={itemVariants}>
             <ProjectHero project={project} />
+          </motion.div>
+          {/* projectDetails */}
+          <motion.div variants={itemVariants}>
+            <ProjectDetails project={project} />
           </motion.div>
 
           {/* Gallery */}

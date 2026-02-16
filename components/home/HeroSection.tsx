@@ -10,12 +10,12 @@ interface HeroSectionProps {
 
 export function HeroSection({ organization }: HeroSectionProps) {
   return (
-    <section className="relative min-h-[500px] w-full overflow-hidden bg-background">
+    <section className="relative min-h-125 w-full overflow-hidden bg-background">
       {/* Background with gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 to-slate-800" />
+      <div className="absolute inset-0 bg-linear-to-br from-slate-900 to-slate-800" />
 
       {/* Content */}
-      <div className="relative flex h-full min-h-[500px] items-center justify-center px-4 py-20">
+      <div className="relative flex h-full min-h-125 items-center justify-center px-4 py-20">
         <motion.div
           className="max-w-2xl space-y-6 text-center"
           initial={{ opacity: 0, y: 20 }}
