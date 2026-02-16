@@ -8,7 +8,7 @@ const _geistMono = Geist_Mono({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Armour Tech Solutions',
-  description: 'We Build scalable applications using the latest technology'',
+  description: 'We Build scalable applications using the latest technology',
   generator: 'Armour Devs',
 }
 
