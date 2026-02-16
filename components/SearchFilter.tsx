@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState, useEffect } from 'react';
+import { useCallback, useState, useEffect, Suspense } from 'react';
 import { Search, X } from 'lucide-react';
 import { useSearchParams, useRouter } from 'next/navigation';
 
@@ -9,7 +9,8 @@ interface SearchFilterProps {
   placeholder?: string;
 }
 
-export function SearchFilter({ onSearch, placeholder = 'Search...' }: SearchFilterProps) {
+// Inner component that uses useSearchParams
+function SearchFilterContent({ onSearch, placeholder }: SearchFilterProps) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [query, setQuery] = useState(searchParams.get('q') || '');
@@ -46,5 +47,24 @@ export function SearchFilter({ onSearch, placeholder = 'Search...' }: SearchFilt
         </button>
       )}
     </div>
+  );
+}
+
+// Main export with Suspense wrapper
+export function SearchFilter(props: SearchFilterProps) {
+  return (
+    <Suspense fallback={
+      <div className="relative w-full max-w-md">
+        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+        <input
+          type="text"
+          placeholder={props.placeholder}
+          disabled
+          className="h-10 w-full rounded-lg border border-border bg-background pl-10 pr-10 text-sm opacity-50 cursor-not-allowed"
+        />
+      </div>
+    }>
+      <SearchFilterContent {...props} />
+    </Suspense>
   );
 }
