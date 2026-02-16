@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Github, Linkedin, Twitter, Mail } from 'lucide-react';
 import { fetchOrganization, fetchContacts } from '@/lib/mock-data';
 import { ContactType, OwnerType } from '@/lib/types';
+import Image from 'next/image';
 
 export async function Footer() {
   const org = await fetchOrganization();
@@ -28,8 +29,14 @@ export async function Footer() {
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground text-sm font-bold">
-                TF
+              <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground text-sm font-bold overflow-hidden">
+                <Image 
+                src={org.logo_url ||'Logo.jpeg'}
+                alt='ATS'
+                width={32}
+                height={32}
+                
+                />
               </div>
               <span className="font-bold text-foreground">{org.name}</span>
             </div>

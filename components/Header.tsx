@@ -3,17 +3,30 @@
 import { useEffect, useState } from 'react';
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
+
 import { Moon, Sun, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
+import { fetchOrganization } from '@/lib/mock-data';
+import { Organization } from '@/lib/types';
 
 export function Header() {
+   
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-
+  const [org,setOrg]=useState<Organization>()
   useEffect(() => {
     setMounted(true);
   }, []);
+useEffect(() => {
+  const fetchOrg = async () => {
+    const organisation = await fetchOrganization();
+    setOrg(organisation)
+  };
+
+  fetchOrg();
+}, []);
 
   const navLinks = [
     { href: '/home', label: 'Home' },
@@ -37,10 +50,16 @@ export function Header() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo/Brand */}
           <Link href="/home" className="flex items-center gap-2 font-bold text-foreground transition-colors duration-300 hover:text-primary">
-            <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground text-sm font-bold">
-              TF
-            </div>
-            <span className="hidden sm:inline">TechFlow</span>
+            <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground text-sm font-bold overflow-hidden">
+                            <Image
+                            src={org?.logo_url||'/Logo.jpeg'}
+                            alt='ATS'
+                            width={32}
+                            height={32}
+                            
+                            />
+                          </div>
+            <span className="hidden sm:inline">{org?.name}</span>
           </Link>
 
           {/* Desktop Navigation */}
