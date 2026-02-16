@@ -7,9 +7,9 @@ const _geist = Geist({ subsets: ['latin'] })
 const _geistMono = Geist_Mono({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'TechFlow Inc - Professional Development Company',
-  description: 'Building innovative digital solutions with cutting-edge technology. Explore our portfolio of projects and meet our talented team.',
-  generator: 'v0.app',
+  title: 'Armour Tech Solutions',
+  description: 'We Build scalable applications using the latest technology'',
+  generator: 'Armour Devs',
 }
 
 export const viewport: Viewport = {
