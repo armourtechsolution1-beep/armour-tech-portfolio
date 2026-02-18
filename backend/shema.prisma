@@ -1,69 +1,479 @@
-enum ProjectStatus{
+enum ProjectStatus {
     complete 
-    on_going
+    ongoing
 }
-enum ProjectType{
-    organisation
+enum ServiceRequestStatus {
+    pending
+    processed
+    rejected
+}
+enum DocumentReqStatus {
+    pending
+    approved
+    rejected
+}
+enum Gender {
+    male
+    female
+    other
+    prefer_not_to_say
+}
+enum ProjectType {
+    android
+    web
+    ios
+    windows
+    cross_platform
+    command_line
+    gaming
+    library
+}
+enum ContactType {
+    facebook
+    instagram
+    email
+    discord
+    github
+    whatsapp
+    telephone
+    website
+}
+enum DocumentType {
+    certificate
+    resume
+    transcipts
+    recommendation
+    thesis
+}
+enum DocumentPrivacy {
+    private
+    public
+    read_only
+}
+enum PatnerType {
     individual
+    company
+    government
+    organization
+    non_govermental_organization
 }
-enum ContactType{
-    FACEBOOK
-    INSTAGRAM
-    EMAIL
-    DISCORD
-    GITHUB
-    WHATSAPP
+enum WorkType {
+    freelance
+    volunteer
+    employment
+    internship
 }
-model organisation{
+enum ContactAvailability {
+    unavailable
+    alltime
+    weekends
+    weekdays
+    monthly
+    annually
+}
+model Organization {
     id   String   @id @default(uuid())
-    name String
-    objective String
-    logo_url String
-    cover_photo_url String
-    display_photo_url String
+    name String @default("armour-tech")
+    objective String 
+    logo_url String @default("/logo.jpeg")
+    cover_photo_url String ?
+    display_photo_url String ?
     about String
     date_formed DateTime
     created_at DateTime @default(now())
     updated_at DateTime @updatedAt
+    // relationships
+    projects OrganizationProject[] @relation("org_project_r")
+    contacts OrganizationContact[] @relation("org_contact_r")
+    members Member[] @relation("org_member_r")
+    footerStatements FooterStatement[] @relation("org_footerstatement_r")
+    patners Patner[] @relation("org_patner_r")
+    
+
 }
-model members{
+
+model Member {
     id String @id @default(uuid())
     first_name String
     last_name String
-    other_name String
-    gender String
-    nationality String
-    date_of_birth DateTime
-    about_member String
-    objective String
+    other_name String ?
+    slug String @unique
+    gender  Gender @default(prefer_not_to_say)
+    nationality String @default("kenyan")
+    date_of_birth DateTime ?
+    about_member String ?
+    objective String ?
+    personal_statement String ?
+    organization_id String 
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    member_title String
+    // relationships
+    personalProjects PersonalProject[] @relation("member_project_r")
+    teamProjects ProjectTeamMember[] @relation("member_teamproject_r")
+    memberContacts MemberContact[] @relation("member_contact_r")
+    memberSkills MemberSkill[] @relation("member_skill_r")
+    memberDocuments MemberDocument[] @relation("member_document_r")
+    workExperiences MemberWorkExperience[] @relation("member_workexperience_r")
+    memberTechnologies MemberTechnology[] @relation("member_technology_r")
+    memberCertifications MemberCertification[] @relation("member_certification_r")
+    organization Organization @relation("org_member_r",fields: [organization_id],references: [id])
+}
+model Project {
+    id String @id @default(uuid())
+    project_name String 
+    description String
+    media_url String ?
+    date_started DateTime 
+    slug String @unique
+    date_completed DateTime
+    project_status ProjectStatus @default(complete)
+    project_type ProjectType @default(web)
+    project_details String ?
     created_at DateTime @default(now())
     updated_at DateTime @updatedAt
     // relationships
-    organisation_id String
-}
-model project{
+    projectTechnologies ProjectTechnology[] @relation("proj_technology_r")
+    projectPhotos ProjectPhoto[] @relation("proj_photo_r")
+    projectReviews ProjectReview[] @relation("proj_review_r")
+    personalProjects PersonalProject[] @relation("proj_personalproject_r")
+    organizationProjects OrganizationProject[]@relation("proj_orgproject_r")
+}   
+model ContactTemplate {
     id String @id @default(uuid())
-    project_name String
-    description String
-    media_url String
-    date_started DateTime
-    date_completed DateTime
-    project_status ProjectStatus
-    project_type ProjectType
-    project_details String
+    display_name String @default("facebook")
+    icon String ?
+    base_url String @default("https://facebook.com")
+    contact_type ContactType @default(facebook)
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    memberContacts MemberContact[] @relation("member_contact_temp_r")
+    organizationContacts OrganizationContact[] @relation("org_contact_temp_r")
+    customerContacts CustomerContact[] @relation("customer_contact_temp_r")
+}
+
+model SkillsTemplate {
+    id String @id @default(uuid())
+    name String @default("web-developer")
+    description String ?
+    serch_link String ?
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    // relationship
+    memberSkills MemberSkill[] @relation("member_skill_temp_r")
+}
+model FooterStatement {
+ id String @id @default(uuid())
+ statement String ?
+ created_at DateTime @default(now())
+ updated_at DateTime @updatedAt
+ organization_id String
+//  relationship
+organization Organization @relation("org_footerstatement_r",fields: [organization_id],references: [id])
 
 }
-model contact_templates{
+model Patner {
     id String @id @default(uuid())
-    display_name String
-    icon String
-    base_url String
-    contact_type ContactType
+    name String @unique
+    patner_type PatnerType @default(individual)
+    about String ?
+    organization_id String
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    //  relationship
+    organization Organization @relation("org_patner_r",fields: [organization_id],references: [id])
+    
 }
-model skills{
+model RoleTemplate {
+    id String @id @default(uuid())
+    name String @unique
+    description String ?
+    search_link String ?
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    projectTeamRoles ProjectTeamRole[] @relation("proj_team_role_temp_r")
+}
+model TechnologiesTemplate {
+    id String @id @default(uuid())
+    name String @unique
+    icon String ?
+    description String ?
+    site_link String ?
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    serviceTechnologies ServiceTechnology[] @relation("service_tech_temp_r")
+    memberTechnologies MemberTechnology[] @relation("member_tech_temp_r")
+    projectTechnologies ProjectTechnology[] @relation("proj_tech_temp_r")
+}
+model OrganizationContact {
+    id String @id @default(uuid())
+    template_id String
+    organization_id String
+    user_name String
+    hyperlink String
+    availability ContactAvailability
+    available_time_interval Json
+    is_Active Boolean @default(true)
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    // relationship
+    organization Organization @relation("org_contact_r",fields: [organization_id],references: [id])
+    contactTemplate ContactTemplate @relation("org_contact_temp_r",fields: [template_id],references: [id])
+}
+model MemberContact {
+    id String @id @default(uuid())
+    template_id String
+    member_id String
+    user_name String
+    hyperlink String
+    availability ContactAvailability
+    available_time_interval String
+    is_Active Boolean
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    // relationship
+    member Member @relation("member_contact_r",fields: [member_id],references: [id])
+    contactTemplate ContactTemplate @relation("member_contact_temp_r",fields: [template_id],references: [id])
+}
+model CertificationsTemplate {
     id String @id @default(uuid())
     name String
     description String
-    serch_link String 
+    providor String
+    site_link String
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    // relationships
+    memberCertifications MemberCertification[] @relation("member_cert_temp_r")
+}
+model ProjectPhoto {
+    id String @id @default(uuid())
+    project_id String
+    name String
+    description String
+    url String
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    // relationship
+    project Project @relation("proj_photo_r",fields: [project_id],references: [id])
+}
+
+model ProjectReview {
+    id String @id @default(uuid())
+    project_id String
+    reviewer_id String
+    review_message String
+    rating Int
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+     // relationship
+    reviewer CustomerProfile @relation("proj_customer_review_r",fields: [reviewer_id],references: [id])
+    project Project @relation("proj_review_r",fields: [project_id],references: [id])
+}
+model ProjectTechnology {
+    id String @id @default(uuid())
+    project_id String
+    technology_id String
+    percentage_used Int
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    // relationship
+    project Project @relation("proj_technology_r",fields:[project_id],references: [id])
+    technologyTemplate TechnologiesTemplate @relation("proj_tech_temp_r",fields: [technology_id],references: [id])
+}
+model MemberTechnology {
+    id String @id @default(uuid())
+    member_id String
+    technology_id String
+    percentage_mastery Int
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    // relationship
+    member Member @relation("member_technology_r",fields: [member_id],references: [id])
+    technologyTemplate TechnologiesTemplate @relation("member_tech_temp_r",fields: [technology_id],references: [id])
+}
+model MemberCertification {
+    id String @id @default(uuid())
+    member_id String
+    certification_temp_id String
+    certification_level String
+    date_taken DateTime
+    date_completed DateTime ?
+    certificate_number String
+    isValid Boolean
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    // relationship
+    member Member @relation("member_certification_r",fields: [member_id],references: [id])
+    certificationTemplate CertificationsTemplate @relation("member_cert_temp_r",fields: [certification_temp_id],references: [id])
+}
+model MemberWorkExperience {
+    id String @id @default(uuid())
+    job_title String
+    member_id String 
+    description String
+    work_type WorkType
+    company_name String
+    start_date DateTime
+    end_date DateTime
+    is_current Boolean
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    // relationship
+    member Member @relation("member_workexperience_r",fields: [member_id],references: [id])
+}
+model MemberSkill {
+    id String @id @default(uuid())
+    skill_temp_id String
+    member_id String
+    proficiency_percentage Int
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    // relationship
+    member Member @relation("member_skill_r",fields: [member_id],references: [id])
+    skillTemp SkillsTemplate @relation("member_skill_temp_r",fields: [skill_temp_id],references: [id])
+
+}
+model MemberDocument {
+    id String @id @default(uuid())
+    owner_id String
+    document_name String
+    source_url String
+    storage_url String
+    document_type DocumentType
+    document_privacy DocumentPrivacy 
+    file_name String
+    file_size Int
+    date_of_creation DateTime
+    file_type String
+    file_extension String
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    // relationship
+    member Member @relation("member_document_r",fields: [owner_id],references: [id])
+    documentDownloadRequests DocumentDownloadRequests[] @relation("doc_download_req_r")
+    documentDownloads DocumentDownload[] @relation("doc_download_r")
+}
+model DocumentDownload {
+    id String @id @default(uuid())
+    document_id String
+    download_source_url String
+    agent_ip String  
+    created_at DateTime @default(now())
+    document MemberDocument @relation("doc_download_r",fields: [document_id],references: [id])
+}
+model PersonalProject {
+    id String @id @default(uuid())
+    member_id String
+    project_id String
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    // relationship
+    project Project @relation("proj_personalproject_r",fields: [project_id],references: [id])
+    member Member @relation("member_project_r",fields: [member_id],references: [id])
+}
+model OrganizationProject {
+    id String @id @default(uuid())
+    organization_id String
+    project_id String
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    //relationship
+    teamMembers ProjectTeamMember[] @relation("proj_team_member_r")
+    project Project @relation("proj_orgproject_r",fields: [project_id],references: [id])
+    organization Organization @relation("org_project_r",fields: [organization_id],references: [id])
+}
+model ProjectTeamMember {
+    id String @id @default(uuid())
+    org_projects_id String 
+    member_id String
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    // relationship 
+    teamMemberRoles ProjectTeamRole[] @relation("team_proj_role_r")
+    organizationProject OrganizationProject @relation("proj_team_member_r",fields: [org_projects_id],references: [id])
+    member Member @relation("member_teamproject_r",fields: [member_id],references: [id])
+}
+model ProjectTeamRole {
+    id String @id @default(uuid())
+    project_team_member_id String 
+    role_temp_id String
+    contribution_percentage Int @default(100)
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    // relationships 
+    projectTeamMember ProjectTeamMember @relation("team_proj_role_r",fields: [project_team_member_id],references: [id])
+    roleTemplate RoleTemplate @relation("proj_team_role_temp_r",fields: [role_temp_id],references: [id])
+}
+model DocumentDownloadRequests {
+    id String @id @default(uuid())
+    document_id String
+    req_email String
+    req_msg String 
+    name_of_req String 
+    ref_code String
+    req_status DocumentReqStatus
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    document MemberDocument @relation("doc_download_req_r",fields: [document_id],references: [id])
+}
+model Service {
+    id String @id @default(uuid())
+    name String 
+    slug String @unique
+    description String 
+    photo_url String 
+    estimated_completion_time String @default("six months")
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    service_technologies ServiceTechnology[] @relation("service_tech_r")
+    service_requests ServiceRequest[] @relation("service_req_r")
+
+}
+model ServiceTechnology {
+    id String @id @default(uuid())
+    service_id String 
+    technology_id String 
+    percentage_used Int @default(90)
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    technologyTemplate TechnologiesTemplate @relation("service_tech_temp_r",fields: [technology_id],references: [id])
+    service Service @relation("service_tech_r",fields: [service_id],references: [id])
+}
+model CustomerProfile {
+    id String @id @default(uuid())
+    first_name String
+    last_name String 
+    other_name String
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    requests ServiceRequest[] @relation("service_req_profile_r")
+    reviews ProjectReview[] @relation("proj_customer_review_r")
+    customerContacts CustomerContact[] @relation("customer_contact_r")
+}
+model CustomerContact {
+    id String @id @default(uuid())
+    contact_template_id String 
+    customer_id String 
+    userName String
+    hyperlink String 
+    availability ContactAvailability @default(alltime)
+    is_active Boolean @default(true)
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    contactTemplate ContactTemplate @relation("customer_contact_temp_r",fields: [contact_template_id],references: [id])
+    customer CustomerProfile @relation("customer_contact_r",fields: [customer_id],references: [id])
+
+}
+
+model ServiceRequest {
+    id String @id @default(uuid())
+    service_id String
+    req_id String 
+    req_msg String ?
+    req_status ServiceRequestStatus
+    date_requested DateTime @default(now())
+    service Service @relation("service_req_r",fields: [service_id],references: [id])
+    requestProfile CustomerProfile @relation("service_req_profile_r",fields: [req_id],references: [id])
     
 }
