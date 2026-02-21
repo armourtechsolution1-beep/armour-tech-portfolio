@@ -111,6 +111,7 @@ CREATE TABLE IF NOT EXISTS Project (
     proj_name TEXT NOT NULL UNIQUE CHECK(length(proj_name)>=1),
     proj_description TEXT ,
     media_url TEXT ,
+    display_photo_url TEXT DEFAULT '/projectPlaceholder.jpg',
     date_started DATE NOT NULL CHECK(date_started <= CURRENT_DATE),
     date_completed DATE CHECK (date_completed >= date_started),
     project_type ProjectType NOT NULL DEFAULT 'web',
