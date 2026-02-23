@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS Member (
     first_name TEXT NOT NULL CHECK(length(first_name)>=1),
     last_name TEXT NOT NULL  CHECK(length(last_name)>=1),
     other_name TEXT DEFAULT 'dev',
-    member_slug TEXT UNIQUE DEFAULT (first_name || "_"|| other_name ||"_" || last_name); -- need to check if this is right
+    -- member_slug TEXT UNIQUE DEFAULT (first_name || "_"|| other_name ||"_" || last_name); -- need to check if this is right
     gender Gender NOT NULL DEFAULT 'prefer_not_to_say',
     nationality TEXT DEFAULT 'kenyan',
     date_of_birth DATE NOT NULL CHECK(date_of_birth <= CURRENT_DATE),
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS Member (
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
-CREATE INDEX idx_Member_slug_name ON Member(member_slug);
+-- CREATE INDEX idx_Member_slug_name ON Member(member_slug);
 CREATE TABLE IF NOT EXISTS Project (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     proj_name TEXT NOT NULL UNIQUE CHECK(length(proj_name)>=1),
@@ -146,14 +146,14 @@ CREATE TABLE IF NOT EXISTS SkillsTemplate (
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT now()    
 );
-CREATE INDEX idx_skillstemplate_skill_name ON SkillTemplate(skill_name);
+CREATE INDEX idx_skillstemplate_skill_name ON SkillsTemplate(skill_name);
 
 CREATE TABLE IF NOT EXISTS FooterStatement (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     footer_statement TEXT,
     organization_id UUID NOT NULL REFERENCES Organization(id),
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 CREATE INDEX idx_footerstatement_organization_id ON FooterStatement(organization_id);
 CREATE TABLE IF NOT EXISTS Patner (
@@ -190,7 +190,7 @@ CREATE TABLE IF NOT EXISTS OrganizationContact (
     organization_id UUID NOT NULL REFERENCES Organization(id) ON DELETE CASCADE,
     user_name TEXT NOT NULL UNIQUE ,
     hyperlink TEXT NOT NULL ,
-    contact_availability ContactAvailability DEFAULT 'available',
+    contact_availability ContactAvailability DEFAULT 'alltime',
     availability_time_interval JSONB DEFAULT '{"from":"7AM" ,"To":"9PM"}',
     is_active BOOLEAN DEFAULT true,
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
@@ -252,7 +252,7 @@ CREATE TABLE IF NOT EXISTS ProjectTechnology (
     UNIQUE(project_id,technology_id)
 );
 CREATE INDEX idx_projecttechnology_project_id ON ProjectTechnology(project_id);
-CREATE INDEX idx_projecttechnology_project_id ON ProjectTechnology(technology_id);
+CREATE INDEX idx_projecttechnology_technology_id ON ProjectTechnology(technology_id);
 CREATE TABLE IF NOT EXISTS MemberTechnology (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     member_id UUID NOT NULL REFERENCES Member(id) ON DELETE CASCADE,
@@ -455,5 +455,3 @@ CREATE TABLE IF NOT EXISTS ServiceRequest (
 CREATE INDEX idx_servicerequest_service_id ON ServiceRequest(service_id);
 CREATE INDEX idx_servicerequest_customer_id ON ServiceRequest(customer_id);
 CREATE INDEX idx_servicerequest_req_ref_code ON ServiceRequest(req_ref_code);
-
-
