@@ -3,8 +3,12 @@
 import { Check, CheckCircle, Circle, Smartphone, SquareArrowOutUpRight, Star } from "lucide-react"
 import Image from "next/image"
 import { motion } from 'framer-motion'
+import { OrgProjectCard } from "@/lib/card-utils";
+interface projectCardProps {
+  project:OrgProjectCard
+}
 
-export function EnhancedProjectCard() {
+export function EnhancedProjectCard({project}:projectCardProps) {
   return (
     <motion.div
       className="relative group max-w-74 max-h-94 flex justify-center overflow-hidden cursor-pointer"
@@ -27,7 +31,7 @@ export function EnhancedProjectCard() {
       transition={{ duration: 0.3 }}
     >
       <Image
-        src={'/projectPlaceholder.jpg'}
+        src={project.display_photo_url as string}
         alt="card image"
         fill
         className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -68,10 +72,10 @@ export function EnhancedProjectCard() {
             }}
             className="flex flex-col items-center w-full justify-center"
           >
-            <h1 className="text-3xl font-medium">TRUSTLOOP</h1>
+            <h1 className="text-3xl font-medium">{project.proj_name}</h1>
             <div className="flex gap-1">
               <Smartphone height={16} width={16} />
-              <h3 className="text-xs">Mobile Application</h3>
+              <h3 className="text-xs">{project.project_type}</h3>
             </div>
           </motion.div>
         </motion.div>
@@ -100,8 +104,7 @@ export function EnhancedProjectCard() {
             className="p-2 mb-2"
           >
             <p className="text-xs">
-              TrustLoop is a platform that connects people into trusted financial groups to save, invest and grow together. 
-              Simple, Secure, and built ....more
+              {project.project_description}
             </p>
           </motion.div>
           

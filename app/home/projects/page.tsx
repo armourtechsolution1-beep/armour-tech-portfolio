@@ -3,55 +3,46 @@
 import { Suspense, useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { ArrowUp, XCircle } from 'lucide-react';
-import { fetchProjects, fetchProjectPhotos, fetchProjectTechnologies } from '@/lib/mock-data';
 import { ProjectCardSkeleton } from '@/components/skeletons/ProjectCardSkeleton';
 import { SearchFilter } from '@/components/SearchFilter';
-import { Project, ProjectTechnology } from '@/lib/types';
 import { EnhancedProjectCard } from '@/components/cards/EnhancedProjectCard';
+import { OrgProjectCard } from '@/lib/card-utils';
 
-interface ProjectWithData {
-  project: Project;
-  technologies: ProjectTechnology[];
-  coverImage: string;
-}
 
 function ProjectsGrid({ searchQuery, setSearchQuery }: {
   searchQuery: string;
   setSearchQuery: (query: string) => void;
 }) {
-  const [projects, setProjects] = useState<ProjectWithData[]>([]);
+  const [projects, setProjects] = useState<OrgProjectCard[]>([]);
   const [loading, setLoading] = useState(true);
-  const [filteredProjects, setFilteredProjects] = useState<ProjectWithData[]>([]);
+  const [filteredProjects, setFilteredProjects] = useState<OrgProjectCard[]>([]);
   const gridRef = useRef(null);
-
   useEffect(() => {
-    async function loadProjects() {
-      const projectsData = await fetchProjects();
-      const projectsWithData = await Promise.all(
-        projectsData.map(async (project) => {
-          const technologies = await fetchProjectTechnologies(project.id);
-          const photos = await fetchProjectPhotos(project.id);
-          const coverImage = photos[0]?.photo_url || '/placeholder.svg?height=400&width=600';
-          return { project, technologies, coverImage };
-        })
-      );
-      setProjects(projectsWithData);
-      setFilteredProjects(projectsWithData); // initialize filtered
-      setLoading(false);
-    }
-    loadProjects();
+    const getProjects = async () => {
+      try {
+        const res = await fetch('/api/projects/cards', {
+          headers: {
+            Accept: "application/json",
+          },
+          method: "GET"
+        });
+        
+        if (res.ok) {
+          const data: OrgProjectCard[] = await res.json();
+          setProjects(data);
+          setFilteredProjects(data);
+          setLoading(false);
+          console.log("The Project Data is over here",data)
+        }
+      } catch (e) {
+        console.log(e);
+        setLoading(false);
+      }
+    };
+
+    getProjects();
   }, []);
 
-  useEffect(() => {
-    const query = searchQuery.toLowerCase();
-    const filtered = projects.filter(
-      ({ project, technologies }) =>
-        project.name.toLowerCase().includes(query) ||
-        project.description?.toLowerCase().includes(query) ||
-        technologies.some(t => t.technology?.name.toLowerCase().includes(query))
-    );
-    setFilteredProjects(filtered);
-  }, [projects, searchQuery]);
 
   // Loading skeletons with animation
   if (loading) {
@@ -140,7 +131,7 @@ function ProjectsGrid({ searchQuery, setSearchQuery }: {
     >
       {filteredProjects.map((item) => (
         <motion.div
-          key={item.project.id}
+          key={String(item.id)}
           variants={{
             hidden: { opacity: 0, y: 30 },
             visible: {
@@ -151,7 +142,7 @@ function ProjectsGrid({ searchQuery, setSearchQuery }: {
           }}
           whileHover={{ y: -5, transition: { duration: 0.2 } }}
         >
-          <EnhancedProjectCard />
+          <EnhancedProjectCard project={item} />
         </motion.div>
       ))}
     </motion.div>
