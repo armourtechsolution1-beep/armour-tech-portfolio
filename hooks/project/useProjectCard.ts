@@ -29,7 +29,15 @@ const queryClient=useQueryClient();
         queryFn:()=>getProjectCard(),
     })
     useEffect(()=>{
-        const channel =supabase.channel('org_project_channel').on('postgres_changes',{event:'*',schema:'public',table:'OrganizationProject'},()=>{
+        const channel =supabase.channel('org_project_channel').on('postgres_changes',{event:'*',schema:'public',table:'organizationproject'},()=>{
+            queryClient.invalidateQueries({queryKey:['OrgProjectCards']})
+        }).subscribe()
+        return()=>{
+            supabase.removeChannel(channel)
+        }
+    },[queryClient])
+     useEffect(()=>{
+        const channel =supabase.channel('project_channel').on('postgres_changes',{event:'*',schema:'public',table:'project'},()=>{
             queryClient.invalidateQueries({queryKey:['OrgProjectCards']})
         }).subscribe()
         return()=>{
