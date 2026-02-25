@@ -7,43 +7,15 @@ import { ProjectCardSkeleton } from '@/components/skeletons/ProjectCardSkeleton'
 import { SearchFilter } from '@/components/SearchFilter';
 import { EnhancedProjectCard } from '@/components/cards/EnhancedProjectCard';
 import { OrgProjectCard } from '@/lib/card-utils';
+import { useProjectCard } from '@/hooks/project/useProjectCard';
 
 
 function ProjectsGrid({ searchQuery, setSearchQuery }: {
   searchQuery: string;
   setSearchQuery: (query: string) => void;
 }) {
-  const [projects, setProjects] = useState<OrgProjectCard[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [filteredProjects, setFilteredProjects] = useState<OrgProjectCard[]>([]);
-  const gridRef = useRef(null);
-  useEffect(() => {
-    const getProjects = async () => {
-      try {
-        const res = await fetch('/api/projects/cards', {
-          headers: {
-            Accept: "application/json",
-          },
-          method: "GET"
-        });
-        
-        if (res.ok) {
-          const data: OrgProjectCard[] = await res.json();
-          setProjects(data);
-          setFilteredProjects(data);
-          setLoading(false);
-          console.log("The Project Data is over here",data)
-        }
-      } catch (e) {
-        console.log(e);
-        setLoading(false);
-      }
-    };
-
-    getProjects();
-  }, []);
-
-
+  const {loading,filteredProjects} = useProjectCard();
+   const gridRef = useRef(null);
   // Loading skeletons with animation
   if (loading) {
     return (
@@ -73,7 +45,12 @@ function ProjectsGrid({ searchQuery, setSearchQuery }: {
       </motion.div>
     );
   }
-
+// if(error){
+//   return(
+//   <div className='bg-amber-100 text-red-600 p-3'>
+//     {error}
+//   </div>)
+// }
   // Empty state with clear button
   if (filteredProjects.length === 0) {
     return (
@@ -129,9 +106,9 @@ function ProjectsGrid({ searchQuery, setSearchQuery }: {
         }
       }}
     >
-      {filteredProjects.map((item) => (
+      {filteredProjects.map((project) => (
         <motion.div
-          key={String(item.id)}
+          key={String(project.project_id)}
           variants={{
             hidden: { opacity: 0, y: 30 },
             visible: {
@@ -142,7 +119,7 @@ function ProjectsGrid({ searchQuery, setSearchQuery }: {
           }}
           whileHover={{ y: -5, transition: { duration: 0.2 } }}
         >
-          <EnhancedProjectCard project={item} />
+          <EnhancedProjectCard project={project} />
         </motion.div>
       ))}
     </motion.div>

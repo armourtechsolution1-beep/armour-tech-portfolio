@@ -1,9 +1,13 @@
-import { cardData } from "@/lib/card-mock";
+import { supabase } from "@/lib/supabase/supabase";
 import { NextResponse } from "next/server";
 
 export async function GET(){
+    
     try{
-        return NextResponse.json(cardData)
+        const {data,error}=await supabase.rpc('get_project_card')
+        // if(data) console.log("Supabase Data:" ,data)
+        if(error) console.log("Supabase Error: ",error)
+        return NextResponse.json(data)
     }catch(error){
         return NextResponse.json(
             { 
@@ -12,8 +16,6 @@ export async function GET(){
             {
             status:500
             }
-                
-    
         )
     }
 }

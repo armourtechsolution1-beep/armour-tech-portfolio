@@ -1,10 +1,10 @@
 import "./globals.css"
 import type { Metadata, Viewport } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Geist } from 'next/font/google'
 import { ThemeProvider } from 'next-themes'
+import { Provider } from "./Provider"
 
 const _geist = Geist({ subsets: ['latin'] })
-const _geistMono = Geist_Mono({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Armour Tech Solutions',
@@ -27,9 +27,14 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${_geist.className} antialiased`} suppressHydrationWarning>
+        
+          <Provider>
+
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           {children}
         </ThemeProvider>
+          </Provider>
+  
       </body>
     </html>
   )

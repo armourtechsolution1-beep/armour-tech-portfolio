@@ -1,14 +1,15 @@
 'use client';
 
-import { Check, CheckCircle, Circle, Smartphone, SquareArrowOutUpRight, Star } from "lucide-react"
+import { Check, CheckCircle, Circle, LoaderCircleIcon, Smartphone, SquareArrowOutUpRight, Star } from "lucide-react"
 import Image from "next/image"
 import { motion } from 'framer-motion'
-import { OrgProjectCard } from "@/lib/card-utils";
+import { IconProjectTypeMap, OrgProjectCard, showMoreWords } from "@/lib/card-utils";
 interface projectCardProps {
   project:OrgProjectCard
 }
 
 export function EnhancedProjectCard({project}:projectCardProps) {
+  const {icon:Icon,label} =IconProjectTypeMap[project.project_type]
   return (
     <motion.div
       className="relative group max-w-74 max-h-94 flex justify-center overflow-hidden cursor-pointer"
@@ -33,6 +34,7 @@ export function EnhancedProjectCard({project}:projectCardProps) {
       <Image
         src={project.display_photo_url as string}
         alt="card image"
+        loading="eager"
         fill
         className="object-cover transition-transform duration-500 group-hover:scale-110"
       />
@@ -40,7 +42,6 @@ export function EnhancedProjectCard({project}:projectCardProps) {
       <div className="absolute bg-black/60 inset-0" />
       
       <div className="relative w-70 h-90 p-2 flex justify-between flex-col">
-        {/* Top Section with Staggered Children */}
         <motion.div 
           className="text-white"
           initial="hidden"
@@ -72,9 +73,9 @@ export function EnhancedProjectCard({project}:projectCardProps) {
             }}
             className="flex flex-col items-center w-full justify-center"
           >
-            <h1 className="text-3xl font-medium">{project.proj_name}</h1>
+            <h1 className="text-3xl font-medium">{project.project_name}</h1>
             <div className="flex gap-1">
-              <Smartphone height={16} width={16} />
+              <Icon height={16} width={16} />
               <h3 className="text-xs">{project.project_type}</h3>
             </div>
           </motion.div>
@@ -104,7 +105,7 @@ export function EnhancedProjectCard({project}:projectCardProps) {
             className="p-2 mb-2"
           >
             <p className="text-xs">
-              {project.project_description}
+              {showMoreWords(project.project_description,100)}
             </p>
           </motion.div>
           
@@ -120,8 +121,15 @@ export function EnhancedProjectCard({project}:projectCardProps) {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <CheckCircle color="#32ed0c" height={16} width={16} />
+              {project.date_completed?(
+                <>
+                <CheckCircle color="#32ed0c" height={16} width={16} />
               <p className="text-xs">Completed</p>
+                </>
+              ):(
+                  <><LoaderCircleIcon color="#bcf30c" height={16} width={16} /><p className="text-xs">Ongoing</p></>
+              )}
+              
             </motion.div>
             
             <motion.div
