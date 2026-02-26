@@ -121,7 +121,7 @@ export function StickyHeader() {
             
             <div className="w-10 h-10 rounded-full overflow-hidden bg-gradient-to-br from-amber-500 to-amber-600">
               <Image 
-                src={'/profile/maleh.jpeg'}
+                src={'/profile/maleh.png'}
                 width={40}
                 height={40}
                 className="w-full h-full object-cover"
