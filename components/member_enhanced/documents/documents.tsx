@@ -156,7 +156,7 @@ export default function DocumentsSection() {
 
           <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
             {/* Document Type Filters */}
-            <div className="flex gap-2 p-1 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 overflow-x-auto">
+            <div className="flex gap-2 p-1 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 overflow-x-auto max-w-[99%]">
               {documentTypes.slice(0, 5).map((type) => (
                 <button
                   key={type}
@@ -174,7 +174,7 @@ export default function DocumentsSection() {
             </div>
 
             {/* Privacy Filters */}
-            <div className="flex gap-2 p-1 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10">
+            <div className="flex gap-2 p-1 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 overflow-x-auto max-w-[99%]">
               {[
                 { value: 'all', label: 'All', icon: Filter },
                 { value: 'public', label: 'Public', icon: Globe },
@@ -184,7 +184,7 @@ export default function DocumentsSection() {
                 <button
                   key={p.value}
                   onClick={() => setPrivacyFilter(p.value as any)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-md capitalize whitespace-nowrap transition-all duration-300 ${
+                  className={`flex items-center gap-2 px-4 py-2  rounded-md capitalize whitespace-nowrap transition-all duration-300 ${
                     privacyFilter === p.value
                       ? 'bg-amber-500 text-white'
                       : 'text-gray-400 hover:text-white hover:bg-white/10'

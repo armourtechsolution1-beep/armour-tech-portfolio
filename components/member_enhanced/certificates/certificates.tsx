@@ -121,10 +121,10 @@ export default function CertificatesSection() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.6 }}
-          className="flex flex-col md:flex-row gap-4 items-center justify-between mb-8"
+          className="flex flex-col md:flex-row gap-4 items-center justify-between mb-8 "
         >
           {/* Level Filters */}
-          <div className="flex gap-2 p-1 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 overflow-x-auto">
+          <div className="flex gap-2 p-1 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 overflow-x-auto max-w-[99%]">
             {levels.map((level) => (
               <button
                 key={level}
@@ -135,7 +135,7 @@ export default function CertificatesSection() {
                     : 'text-gray-400 hover:text-white hover:bg-white/10'
                 }`}
               >
-                {level === 'all' ? <Filter size={16} /> : <Sparkles size={16} />}
+                {level === 'all' ? <Filter size={16} /> : <Award size={16} />}
                 <span>{level}</span>
               </button>
             ))}

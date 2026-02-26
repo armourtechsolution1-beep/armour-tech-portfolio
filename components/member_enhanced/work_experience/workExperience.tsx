@@ -129,7 +129,7 @@ export default function WorkExperienceSection() {
           className="flex flex-col sm:flex-row gap-4 items-center justify-between mb-8"
         >
           {/* Company Filter */}
-          <div className="flex gap-2 p-1 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 overflow-x-auto">
+          <div className="flex gap-2 p-1 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 overflow-x-auto max-w-[99%]">
             {companies.slice(0, 5).map((company) => (
               <button
                 key={company}
