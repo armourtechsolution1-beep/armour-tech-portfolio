@@ -18,6 +18,7 @@ import {
   AlignEndHorizontal
 } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface NavItem {
   id: string;
@@ -117,8 +118,17 @@ export function StickyHeader() {
               }}
               className="flex items-center gap-2"
             >
-              <AlignEndHorizontal className="w-6 h-6 text-amber-400" />
-              <span className="text-white font-semibold text-lg hidden sm:block">
+            
+            <div className="w-10 h-10 rounded-full overflow-hidden bg-gradient-to-br from-amber-500 to-amber-600">
+              <Image 
+                src={'/profile/maleh.jpeg'}
+                width={40}
+                height={40}
+                className="w-full h-full object-cover"
+                alt="Profile"
+              />
+            </div>
+              <span className="text-white font-semibold text-lg sm:block">
                 Malcom David
               </span>
             </motion.div>
